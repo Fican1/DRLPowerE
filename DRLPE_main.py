@@ -15,20 +15,20 @@ def update():
     
         
         # 初始化 state 的观测值
-        observation = Env.reset()
+        state = Env.reset()
 
         for episode in range(100): #训练回合数
             # RL 大脑根据 state 的观测值挑选 action
             action = RLQ.chooseAction()
 
             # 探索者在环境中实施这个 action, 并得到环境返回的下一个 state 观测值, reward 和 done (是否是掉下地狱或者升上天堂)
-            observation_, reward, done = Env.RLStep(action)
+            stateNext, reward, done = Env.RLStep(action)
 
             # RL 从这个序列 (state, action, reward, state_) 中学习
-            RLQ.learn(observation, action, reward, observation)
+            RLQ.learn(state, action, reward, stateNext)
             
             # 将下一个 state 的值传到下一次循环
-            observation = observation_
+            state = stateNext
 
             
 
